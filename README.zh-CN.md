@@ -57,8 +57,11 @@ python "$SKILL/tools/load_docs.py" . --mode target --target src/core --json
 `sync-project-docs`：
 
 ```text
-https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
+https://walvka-code.github.io/sync-project-docs/index.json
 ```
+
+（同一份索引也发布在 `https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json`，
+但部分网络无法直连该域名；以 GitHub Pages 地址为准。）
 
 不用市场时，可直接钉住某个 commit（bundle 是仓库里的一个包目录）：
 

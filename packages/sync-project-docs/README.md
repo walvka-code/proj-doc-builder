@@ -18,7 +18,8 @@ no runtime dependency beyond Node's standard library.
 
 ```bash
 # market index (Discover → add source)
-https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
+https://walvka-code.github.io/sync-project-docs/index.json
+# fallback: https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
 
 # pin one commit
 git+https://github.com/walvka-code/sync-project-docs.git#<40-hex-commit>&path:/packages/sync-project-docs

@@ -63,8 +63,11 @@ Add this market index under **Plugins → More → Custom plugin markets → Dis
 `sync-project-docs`:
 
 ```text
-https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
+https://walvka-code.github.io/sync-project-docs/index.json
 ```
+
+(The same file is also served from `https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json`,
+but that host is unreachable from some networks; GitHub Pages is the primary address.)
 
 Without the market, pin one commit (the bundle is a package directory in Git):
 
