@@ -32,8 +32,7 @@
   "homepage": "https://github.com/walvka-code/proj-doc-builder#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/walvka-code/proj-doc-builder.git",
-    "directory": "packages/proj-doc-builder"
+    "url": "git+https://github.com/walvka-code/proj-doc-builder.git"
   },
   "bugs": {
     "url": "https://github.com/walvka-code/proj-doc-builder/issues"

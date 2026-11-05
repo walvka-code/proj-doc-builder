@@ -38,12 +38,11 @@
         "en": "Scan, validate and publish AI-readable project documentation with a committed scan state: one outline per source directory, incremental sync, and an independent manifest that proves the docs are in sync.",
         "zh": "扫描、校验并发布 AI 可读的项目文档：每个源码目录一份大纲、增量同步，并用独立 manifest 证明文档确实已同步。"
       },
-      "icon": "packages/proj-doc-builder/icon.svg",
+      "icon": "icon.svg",
       "author": "walvka-code",
       "homepage": "https://github.com/walvka-code/proj-doc-builder#readme",
       "repository": {
-        "url": "https://github.com/walvka-code/proj-doc-builder",
-        "directory": "packages/proj-doc-builder"
+        "url": "https://github.com/walvka-code/proj-doc-builder"
       },
       "metadata": {
         "category": "documentation",
@@ -66,8 +65,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/walvka-code/proj-doc-builder",
-            "commit": "7c8b0d2dd9f581d2cfb6eba7fdb74ac9765726f6",
-            "path": "packages/proj-doc-builder"
+            "commit": "7c8b0d2dd9f581d2cfb6eba7fdb74ac9765726f6"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.5"

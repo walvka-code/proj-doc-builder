@@ -1,7 +1,7 @@
 /**
  * Offline checks for the proj-doc-builder bundle package.
  *
- * Run from the repository root:  node packages/proj-doc-builder/scripts/check-bundle.mjs
+ * Run from the repository root:  node scripts/check-bundle.mjs
  *
  * It verifies the manifest the loader reads, exercises the bundled skill
  * provider without a Harness, and keeps the market index consistent with the
@@ -13,7 +13,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const PKG_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const REPO_ROOT = resolve(PKG_DIR, "..", "..");
+const REPO_ROOT = PKG_DIR;
 const importFile = (file) => import(pathToFileURL(file).href);
 
 const failures = [];
@@ -114,7 +114,7 @@ await check("market index describes this package", async () => {
   assert.ok(Number.isInteger(version.publishTimestamp));
   if (version.source.type === "git") {
     assert.match(version.source.commit, /^[0-9a-f]{40}$/);
-    assert.equal(version.source.path, "packages/proj-doc-builder");
+    assert.equal(version.source.path, undefined, "a root package must not carry a path");
   } else {
     assert.equal(version.source.type, "npm");
   }

@@ -10,7 +10,7 @@
 
 ```bash
 # 技能目录：SKILL.md 与 tools/ 都在这里
-SKILL="$(pwd)/packages/proj-doc-builder/skills/proj-doc-builder"
+SKILL="$(pwd)/skills/proj-doc-builder"
 
 # 同步：生成/更新文档索引（先看，不写盘 → 确认后发布）
 python "$SKILL/tools/sync_project_docs.py" . --dry-run --json
@@ -66,13 +66,13 @@ https://walvka-code.github.io/proj-doc-builder/index.json
 不用市场时，可直接钉住某个 commit（bundle 是仓库里的一个包目录）：
 
 ```bash
-git+https://github.com/walvka-code/proj-doc-builder.git#<40 位 commit>&path:/packages/proj-doc-builder
+git+https://github.com/walvka-code/proj-doc-builder.git#<40 位 commit>
 ```
 
 或用 `plugin_manager` 装本地检出：
 
 ```json
-{ "action": "install_bundle", "target": "C:/path/to/proj-doc-builder/packages/proj-doc-builder" }
+{ "action": "install_bundle", "target": "C:/path/to/proj-doc-builder" }
 ```
 
 bundle 挂载一个 bundled 技能提供方（rank 600）：技能在 profile 的**所有会话**里可用；若某个项目自带
@@ -80,7 +80,7 @@ bundle 挂载一个 bundled 技能提供方（rank 600）：技能在 profile �
 
 **方式二：作为项目技能**
 
-把 `packages/proj-doc-builder/skills/proj-doc-builder/` 复制到
+把 `skills/proj-doc-builder/` 复制到
 `<project>/.dsh/skills/proj-doc-builder/`。`SKILL.md` 用宿主报告的技能目录解析工具路径，
 两种布局都成立。
 
@@ -88,7 +88,7 @@ bundle 挂载一个 bundled 技能提供方（rank 600）：技能在 profile �
 
 ```bash
 git clone <this-repo> proj-doc-builder
-SKILL="$(pwd)/proj-doc-builder/packages/proj-doc-builder/skills/proj-doc-builder"
+SKILL="$(pwd)/proj-doc-builder/skills/proj-doc-builder"
 python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --json
 ```
 
@@ -102,12 +102,13 @@ python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --jso
 
 ```text
 proj-doc-builder/
+├── package.json                        # name / dsh.bundle.patch / engines
+├── cordis.patch.yml                    # 挂载 bundled 技能提供方
+├── index.js                            # 读取 SKILL.md 并注册技能
 ├── index.json                          # 插件市场索引（format 1）
-├── packages/proj-doc-builder/         # DSH bundle 包
-│   ├── package.json                    # name / dsh.bundle.patch / engines
-│   ├── cordis.patch.yml                # 挂载 bundled 技能提供方
-│   ├── index.js                        # 读取 SKILL.md 并注册技能
-│   └── skills/proj-doc-builder/       # SKILL.md + tools/ + references/ + tests/
+├── icon.svg / locale/                  # bundle 展示元数据
+├── skills/proj-doc-builder/            # SKILL.md + tools/ + references/ + tests/
+├── scripts/check-bundle.mjs            # 离线 bundle 自检（CI）
 └── .github/workflows/ci.yml
 ```
 
@@ -212,7 +213,7 @@ Linux 上必须知道的三条：
 ## 测试
 
 ```bash
-python -m pytest packages/proj-doc-builder/skills/proj-doc-builder/tests -q
+python -m pytest skills/proj-doc-builder/tests -q
 ```
 
 **360 个用例**（Windows：354 passed / 6 skipped；Linux 差异仅在于"Windows 句柄语义"用例反向跳过），全部使用 `tmp_path`，不触碰真实 `project_docs/`。锁定的不是"功能"而是**崩溃一致性**：

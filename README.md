@@ -11,7 +11,7 @@ one command to load it.
 
 ```bash
 # The skill directory: SKILL.md + tools/ live here
-SKILL="$(pwd)/packages/proj-doc-builder/skills/proj-doc-builder"
+SKILL="$(pwd)/skills/proj-doc-builder"
 
 # Sync: build/refresh the documentation index (preview first, then publish)
 python "$SKILL/tools/sync_project_docs.py" . --dry-run --json
@@ -72,13 +72,13 @@ but that host is unreachable from some networks; GitHub Pages is the primary add
 Without the market, pin one commit (the bundle is a package directory in Git):
 
 ```bash
-git+https://github.com/walvka-code/proj-doc-builder.git#<40-hex-commit>&path:/packages/proj-doc-builder
+git+https://github.com/walvka-code/proj-doc-builder.git#<40-hex-commit>
 ```
 
 or install a local checkout with the `plugin_manager` tool:
 
 ```json
-{ "action": "install_bundle", "target": "C:/path/to/proj-doc-builder/packages/proj-doc-builder" }
+{ "action": "install_bundle", "target": "C:/path/to/proj-doc-builder" }
 ```
 
 The bundle mounts one bundled skill provider (rank 600): the skill is available in **every** session
@@ -87,7 +87,7 @@ wants to pin its own version.
 
 **Option 2 — as a project skill**
 
-Copy `packages/proj-doc-builder/skills/proj-doc-builder/` to
+Copy `skills/proj-doc-builder/` to
 `<project>/.dsh/skills/proj-doc-builder/`. `SKILL.md` resolves its tools through the skill directory
 the host reports, so both layouts work unchanged.
 
@@ -95,7 +95,7 @@ the host reports, so both layouts work unchanged.
 
 ```bash
 git clone <this-repo> proj-doc-builder
-SKILL="$(pwd)/proj-doc-builder/packages/proj-doc-builder/skills/proj-doc-builder"
+SKILL="$(pwd)/proj-doc-builder/skills/proj-doc-builder"
 python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --json
 ```
 
@@ -110,12 +110,13 @@ Prerequisites: your project root needs a `project_docs/` directory and a `CLAUDE
 
 ```text
 proj-doc-builder/
+├── package.json                        # name / dsh.bundle.patch / engines
+├── cordis.patch.yml                    # mounts the bundled skill provider
+├── index.js                            # reads SKILL.md, registers the skill
 ├── index.json                          # plugin market index (format 1)
-├── packages/proj-doc-builder/         # the DSH bundle package
-│   ├── package.json                    # name / dsh.bundle.patch / engines
-│   ├── cordis.patch.yml                # mounts the bundled skill provider
-│   ├── index.js                        # reads SKILL.md, registers the skill
-│   └── skills/proj-doc-builder/       # SKILL.md + tools/ + references/ + tests/
+├── icon.svg / locale/                  # bundle display metadata
+├── skills/proj-doc-builder/            # SKILL.md + tools/ + references/ + tests/
+├── scripts/check-bundle.mjs            # offline bundle checks (CI)
 └── .github/workflows/ci.yml
 ```
 
@@ -233,7 +234,7 @@ Three things to know on Linux:
 ## Tests
 
 ```bash
-python -m pytest packages/proj-doc-builder/skills/proj-doc-builder/tests -q
+python -m pytest skills/proj-doc-builder/tests -q
 ```
 
 **360 tests** (Windows: 354 passed / 6 skipped; on Linux only the Windows-handle-semantics tests
