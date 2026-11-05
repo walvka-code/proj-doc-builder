@@ -1,0 +1,7 @@
+# Byte-code caches (excluded from this release tree)
+__pycache__/
+*.pyc
+
+# pytest caches
+.pytest_cache/
+.pytest_cache

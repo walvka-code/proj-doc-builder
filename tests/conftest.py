@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+"""Test import setup for standalone sync-project-docs tools."""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+TOOLS_DIR = Path(__file__).resolve().parents[1] / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))

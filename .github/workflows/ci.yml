@@ -1,0 +1,54 @@
+name: tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  pytest:
+    name: pytest (${{ matrix.os }}, py${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # 本地开发在 CPython 3.14 + pytest 9 上完成验证；3.12/3.13 由 CI 覆盖。
+        python: ["3.12", "3.13", "3.14"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Run test suite
+        run: python -m pytest tests -q
+
+  # Runs the suite inside a container, so pytest's tmp_path lands on overlayfs
+  # instead of the runner's ext4. That is the only job that exercises the
+  # "filesystem lacks renameat2 / directory fsync" degradation paths.
+  container-filesystem:
+    name: pytest (container/overlayfs, py3.12)
+    runs-on: ubuntu-latest
+    container: python:3.12-slim
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pip -r requirements-dev.txt
+
+      - name: Report the filesystem backing /tmp
+        run: |
+          stat -f -c 'fs-type=%T' /tmp
+          df -h /tmp | tail -n 1
+
+      - name: Run test suite
+        run: python -m pytest tests -q
