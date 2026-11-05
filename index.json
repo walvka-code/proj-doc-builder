@@ -65,7 +65,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/walvka-code/proj-doc-builder",
-            "commit": "7c8b0d2dd9f581d2cfb6eba7fdb74ac9765726f6"
+            "commit": "c988829d8024df2d5ec1e0d18a87f78775d23e02"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.5"
