@@ -57,7 +57,7 @@ def _placeholder_document(
 
 <!-- DOC-PATH: project_docs/module.md -->
 <!-- AUTO-GENERATED v3.0: folder-doc START -->
-<!-- Last synced: {SYNCED} by sync-project-docs v3.2 -->{marker_tail}
+<!-- Last synced: {SYNCED} by proj-doc-builder v3.2 -->{marker_tail}
 
 **导航**: **module**
 

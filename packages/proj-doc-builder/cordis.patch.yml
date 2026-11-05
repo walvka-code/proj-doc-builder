@@ -1,0 +1,8 @@
+# proj-doc-builder bundle patch.
+#
+# One row: the bundled skill provider of this package. It registers the
+# `proj-doc-builder` skill on `ctx.skills` at the bundled rank (600), so a
+# project-local `.dsh/skills/proj-doc-builder/` copy still wins when present.
+- insert:
+    - id: proj-doc-builder-skill
+      name: "@walvka-code/proj-doc-builder"

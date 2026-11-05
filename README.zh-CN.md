@@ -1,4 +1,4 @@
-# sync-project-docs
+# proj_doc_builder
 
 **把工程变成 AI 读得懂的文档索引。** 一条命令生成大纲，一条命令加载概况。
 
@@ -6,11 +6,11 @@
 >
 > 英文是默认版本；本文件为同步翻译，改内容时两版一起改。
 >
-> 同时提供 **DeepSeek Harness bundle**（`@walvka-code/sync-project-docs`）与普通 CLI 两种用法。
+> 同时提供 **DeepSeek Harness bundle**（`@walvka-code/proj-doc-builder`）与普通 CLI 两种用法。
 
 ```bash
 # 技能目录：SKILL.md 与 tools/ 都在这里
-SKILL="$(pwd)/packages/sync-project-docs/skills/sync-project-docs"
+SKILL="$(pwd)/packages/proj-doc-builder/skills/proj-doc-builder"
 
 # 同步：生成/更新文档索引（先看，不写盘 → 确认后发布）
 python "$SKILL/tools/sync_project_docs.py" . --dry-run --json
@@ -54,41 +54,41 @@ python "$SKILL/tools/load_docs.py" . --mode target --target src/core --json
 **方式一：DSH bundle（推荐）**
 
 在 **Plugins → More → 开启 Custom plugin markets → Discover** 里加入本仓的索引地址，然后安装
-`sync-project-docs`：
+`proj-doc-builder`：
 
 ```text
-https://walvka-code.github.io/sync-project-docs/index.json
+https://walvka-code.github.io/proj-doc-builder/index.json
 ```
 
-（同一份索引也发布在 `https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json`，
+（同一份索引也发布在 `https://raw.githubusercontent.com/walvka-code/proj-doc-builder/main/index.json`，
 但部分网络无法直连该域名；以 GitHub Pages 地址为准。）
 
 不用市场时，可直接钉住某个 commit（bundle 是仓库里的一个包目录）：
 
 ```bash
-git+https://github.com/walvka-code/sync-project-docs.git#<40 位 commit>&path:/packages/sync-project-docs
+git+https://github.com/walvka-code/proj-doc-builder.git#<40 位 commit>&path:/packages/proj-doc-builder
 ```
 
 或用 `plugin_manager` 装本地检出：
 
 ```json
-{ "action": "install_bundle", "target": "C:/path/to/sync-project-docs/packages/sync-project-docs" }
+{ "action": "install_bundle", "target": "C:/path/to/proj-doc-builder/packages/proj-doc-builder" }
 ```
 
 bundle 挂载一个 bundled 技能提供方（rank 600）：技能在 profile 的**所有会话**里可用；若某个项目自带
-`.dsh/skills/sync-project-docs/`，项目副本优先（用于钉住版本）。
+`.dsh/skills/proj-doc-builder/`，项目副本优先（用于钉住版本）。
 
 **方式二：作为项目技能**
 
-把 `packages/sync-project-docs/skills/sync-project-docs/` 复制到
-`<project>/.dsh/skills/sync-project-docs/`。`SKILL.md` 用宿主报告的技能目录解析工具路径，
+把 `packages/proj-doc-builder/skills/proj-doc-builder/` 复制到
+`<project>/.dsh/skills/proj-doc-builder/`。`SKILL.md` 用宿主报告的技能目录解析工具路径，
 两种布局都成立。
 
 **方式三：当普通 CLI 用**（不需要任何 agent 框架）
 
 ```bash
-git clone <this-repo> sync-project-docs
-SKILL="$(pwd)/sync-project-docs/packages/sync-project-docs/skills/sync-project-docs"
+git clone <this-repo> proj-doc-builder
+SKILL="$(pwd)/proj-doc-builder/packages/proj-doc-builder/skills/proj-doc-builder"
 python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --json
 ```
 
@@ -101,13 +101,13 @@ python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --jso
 ## 仓库布局
 
 ```text
-sync-project-docs/
+proj-doc-builder/
 ├── index.json                          # 插件市场索引（format 1）
-├── packages/sync-project-docs/         # DSH bundle 包
+├── packages/proj-doc-builder/         # DSH bundle 包
 │   ├── package.json                    # name / dsh.bundle.patch / engines
 │   ├── cordis.patch.yml                # 挂载 bundled 技能提供方
 │   ├── index.js                        # 读取 SKILL.md 并注册技能
-│   └── skills/sync-project-docs/       # SKILL.md + tools/ + references/ + tests/
+│   └── skills/proj-doc-builder/       # SKILL.md + tools/ + references/ + tests/
 └── .github/workflows/ci.yml
 ```
 
@@ -212,7 +212,7 @@ Linux 上必须知道的三条：
 ## 测试
 
 ```bash
-python -m pytest packages/sync-project-docs/skills/sync-project-docs/tests -q
+python -m pytest packages/proj-doc-builder/skills/proj-doc-builder/tests -q
 ```
 
 **360 个用例**（Windows：354 passed / 6 skipped；Linux 差异仅在于"Windows 句柄语义"用例反向跳过），全部使用 `tmp_path`，不触碰真实 `project_docs/`。锁定的不是"功能"而是**崩溃一致性**：

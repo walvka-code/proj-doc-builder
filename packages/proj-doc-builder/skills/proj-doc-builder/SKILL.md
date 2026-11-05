@@ -1,5 +1,5 @@
 ---
-name: sync-project-docs
+name: proj-doc-builder
 description: >
   Safely scan, validate, and synchronize AI-readable project documentation,
   manifest v2, the CLAUDE document-tree index, and committed scan state. Use
@@ -19,7 +19,7 @@ allowed-tools:
   - Grep
 ---
 
-# sync-project-docs v3.2 — 分阶段生成与确定性发布
+# proj_doc_builder v3.2 — 分阶段生成与确定性发布
 
 > **路径约定（必读）**：下文 `<skill-dir>` 指本 `SKILL.md` 所在目录的**绝对路径**——
 > 技能加载结果里的 `Base directory for this skill` 就是它。所有命令都在**项目根**执行，
@@ -38,7 +38,7 @@ allowed-tools:
 
 - 默认先 dry-run；只有所有闸门通过后才运行 coordinator `--apply`。
 - Phase 4 默认只报告。不得自动删除文档，不得自动添加 archive 标注，不得把旧 `--auto-approve` 当作授权。
-- quarantine 是独立的显式动作；一次普通 `/sync-project-docs` 不自动执行它。
+- quarantine 是独立的显式动作；一次普通 `/proj-doc-builder` 不自动执行它。
 - pending Phase 4 journal 必须先通过显式 `--recover` 处理；report、apply、restore 和 coordinator 都不得绕过恢复闸门。
 - 活动 Markdown 集合只排除根级 `project_docs/.quarantine（运行时生成，可能不存在）/`；`.lingma/` 和嵌套同名目录仍属于活动树。
 - 所有文本严格 UTF-8；Python 文件首行必须是 `# -*- coding: utf-8 -*-`。

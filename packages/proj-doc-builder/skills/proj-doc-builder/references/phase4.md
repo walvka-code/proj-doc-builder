@@ -10,7 +10,7 @@ Phase 4 只处理“源码目录已确认消失、但镜像文档仍存在”的
 python "<skill-dir>/tools/phase4_exit.py" . --json
 ```
 
-普通 `/sync-project-docs` 只消费同一分析器产生的报告。Phase 4 不会在普通同步中自动 quarantine、自动删除或自动添加历史存档标注。
+普通 `/proj-doc-builder` 只消费同一分析器产生的报告。Phase 4 不会在普通同步中自动 quarantine、自动删除或自动添加历史存档标注。
 
 ## 2. 可信输入
 

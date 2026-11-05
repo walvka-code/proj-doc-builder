@@ -56,7 +56,7 @@ def _write_doc(
         f"# {title}",
         "",
         marker,
-        f"<!-- Last synced: {SYNCED_AT} by sync-project-docs v3.2 -->",
+        f"<!-- Last synced: {SYNCED_AT} by proj-doc-builder v3.2 -->",
     ]
     if overview is not None:
         sections.extend(["", "## 概述", "", overview])
@@ -665,7 +665,7 @@ def test_candidate_snapshot_uses_staged_docs_and_real_source_inventory(
 ) -> None:
     root, _ = _make_root(tmp_path)
     (root / "present").mkdir()
-    stage_docs = root / ".sync-project-docs-stage-test" / "project_docs"
+    stage_docs = root / ".proj-doc-builder-stage-test" / "project_docs"
     _write_doc(stage_docs / "present.md", title="现有目录")
     _write_doc(stage_docs / "orphan.md", title="退出候选")
     manifest = contract.build_manifest(stage_docs, last_synced=SYNCED_AT)
@@ -688,7 +688,7 @@ def test_candidate_snapshot_rejects_manifest_not_matching_stage(
     tmp_path: Path,
 ) -> None:
     root, _ = _make_root(tmp_path)
-    stage_docs = root / ".sync-project-docs-stage-test" / "project_docs"
+    stage_docs = root / ".proj-doc-builder-stage-test" / "project_docs"
     _write_doc(stage_docs / "orphan.md")
     manifest = contract.build_manifest(stage_docs, last_synced=SYNCED_AT)
     (stage_docs / "orphan.md").write_text("changed\n", encoding="utf-8")

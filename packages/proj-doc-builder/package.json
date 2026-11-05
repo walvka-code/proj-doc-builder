@@ -1,7 +1,7 @@
 {
-  "name": "@walvka-code/sync-project-docs",
+  "name": "@walvka-code/proj-doc-builder",
   "version": "3.2.0",
-  "description": "DeepSeek Harness bundle for the sync-project-docs skill: scan, validate and publish AI-readable project documentation with committed scan state.",
+  "description": "DeepSeek Harness bundle for the proj-doc-builder skill: scan, validate and publish AI-readable project documentation with committed scan state.",
   "icon": "./icon.svg",
   "type": "module",
   "main": "index.js",
@@ -29,14 +29,14 @@
   ],
   "license": "MIT",
   "author": "walvka-code",
-  "homepage": "https://github.com/walvka-code/sync-project-docs#readme",
+  "homepage": "https://github.com/walvka-code/proj-doc-builder#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/walvka-code/sync-project-docs.git",
-    "directory": "packages/sync-project-docs"
+    "url": "git+https://github.com/walvka-code/proj-doc-builder.git",
+    "directory": "packages/proj-doc-builder"
   },
   "bugs": {
-    "url": "https://github.com/walvka-code/sync-project-docs/issues"
+    "url": "https://github.com/walvka-code/proj-doc-builder/issues"
   },
   "publishConfig": {
     "access": "public"

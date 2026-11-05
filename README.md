@@ -1,4 +1,4 @@
-# sync-project-docs
+# proj_doc_builder
 
 **Turn a codebase into documentation an AI can actually read.** One command to build the outline,
 one command to load it.
@@ -7,11 +7,11 @@ one command to load it.
 >
 > `README.zh-CN.md` is a synced translation — update both together.
 >
-> Ships as a **DeepSeek Harness bundle** (`@walvka-code/sync-project-docs`) **and** as a plain CLI.
+> Ships as a **DeepSeek Harness bundle** (`@walvka-code/proj-doc-builder`) **and** as a plain CLI.
 
 ```bash
 # The skill directory: SKILL.md + tools/ live here
-SKILL="$(pwd)/packages/sync-project-docs/skills/sync-project-docs"
+SKILL="$(pwd)/packages/proj-doc-builder/skills/proj-doc-builder"
 
 # Sync: build/refresh the documentation index (preview first, then publish)
 python "$SKILL/tools/sync_project_docs.py" . --dry-run --json
@@ -60,42 +60,42 @@ tests. Pick the install that fits your agent:
 **Option 1 — DeepSeek Harness bundle (recommended)**
 
 Add this market index under **Plugins → More → Custom plugin markets → Discover**, then install
-`sync-project-docs`:
+`proj-doc-builder`:
 
 ```text
-https://walvka-code.github.io/sync-project-docs/index.json
+https://walvka-code.github.io/proj-doc-builder/index.json
 ```
 
-(The same file is also served from `https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json`,
+(The same file is also served from `https://raw.githubusercontent.com/walvka-code/proj-doc-builder/main/index.json`,
 but that host is unreachable from some networks; GitHub Pages is the primary address.)
 
 Without the market, pin one commit (the bundle is a package directory in Git):
 
 ```bash
-git+https://github.com/walvka-code/sync-project-docs.git#<40-hex-commit>&path:/packages/sync-project-docs
+git+https://github.com/walvka-code/proj-doc-builder.git#<40-hex-commit>&path:/packages/proj-doc-builder
 ```
 
 or install a local checkout with the `plugin_manager` tool:
 
 ```json
-{ "action": "install_bundle", "target": "C:/path/to/sync-project-docs/packages/sync-project-docs" }
+{ "action": "install_bundle", "target": "C:/path/to/proj-doc-builder/packages/proj-doc-builder" }
 ```
 
 The bundle mounts one bundled skill provider (rank 600): the skill is available in **every** session
-of the profile, and a project-local `.dsh/skills/sync-project-docs/` copy still wins when a repository
+of the profile, and a project-local `.dsh/skills/proj-doc-builder/` copy still wins when a repository
 wants to pin its own version.
 
 **Option 2 — as a project skill**
 
-Copy `packages/sync-project-docs/skills/sync-project-docs/` to
-`<project>/.dsh/skills/sync-project-docs/`. `SKILL.md` resolves its tools through the skill directory
+Copy `packages/proj-doc-builder/skills/proj-doc-builder/` to
+`<project>/.dsh/skills/proj-doc-builder/`. `SKILL.md` resolves its tools through the skill directory
 the host reports, so both layouts work unchanged.
 
 **Option 3 — as a plain CLI** (no agent framework needed)
 
 ```bash
-git clone <this-repo> sync-project-docs
-SKILL="$(pwd)/sync-project-docs/packages/sync-project-docs/skills/sync-project-docs"
+git clone <this-repo> proj-doc-builder
+SKILL="$(pwd)/proj-doc-builder/packages/proj-doc-builder/skills/proj-doc-builder"
 python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --json
 ```
 
@@ -109,13 +109,13 @@ Prerequisites: your project root needs a `project_docs/` directory and a `CLAUDE
 ## Repository layout
 
 ```text
-sync-project-docs/
+proj-doc-builder/
 ├── index.json                          # plugin market index (format 1)
-├── packages/sync-project-docs/         # the DSH bundle package
+├── packages/proj-doc-builder/         # the DSH bundle package
 │   ├── package.json                    # name / dsh.bundle.patch / engines
 │   ├── cordis.patch.yml                # mounts the bundled skill provider
 │   ├── index.js                        # reads SKILL.md, registers the skill
-│   └── skills/sync-project-docs/       # SKILL.md + tools/ + references/ + tests/
+│   └── skills/proj-doc-builder/       # SKILL.md + tools/ + references/ + tests/
 └── .github/workflows/ci.yml
 ```
 
@@ -233,7 +233,7 @@ Three things to know on Linux:
 ## Tests
 
 ```bash
-python -m pytest packages/sync-project-docs/skills/sync-project-docs/tests -q
+python -m pytest packages/proj-doc-builder/skills/proj-doc-builder/tests -q
 ```
 
 **360 tests** (Windows: 354 passed / 6 skipped; on Linux only the Windows-handle-semantics tests

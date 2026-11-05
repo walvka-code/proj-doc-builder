@@ -9,9 +9,9 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1] / "skills" / "sync-project-docs"
+ROOT = Path(__file__).resolve().parents[1] / "skills" / "proj-doc-builder"
 FILES = [ROOT / "SKILL.md", *sorted((ROOT / "references").glob("*.md"))]
-OLD = ".dsh/skills/sync-project-docs/"
+OLD = ".dsh/skills/proj-doc-builder/"
 NEW = "<skill-dir>/"
 CMD = re.compile(r'python (<skill-dir>/tools/[A-Za-z0-9_./]+\.py)')
 

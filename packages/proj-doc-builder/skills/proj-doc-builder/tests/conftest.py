@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Test import setup for standalone sync-project-docs tools."""
+"""Test import setup for standalone proj-doc-builder tools."""
 
 from __future__ import annotations
 

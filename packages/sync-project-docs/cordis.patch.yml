@@ -1,8 +1,0 @@
-# sync-project-docs bundle patch.
-#
-# One row: the bundled skill provider of this package. It registers the
-# `sync-project-docs` skill on `ctx.skills` at the bundled rank (600), so a
-# project-local `.dsh/skills/sync-project-docs/` copy still wins when present.
-- insert:
-    - id: sync-project-docs-skill
-      name: "@walvka-code/sync-project-docs"

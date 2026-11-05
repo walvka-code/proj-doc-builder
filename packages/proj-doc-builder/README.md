@@ -1,15 +1,15 @@
-# @walvka-code/sync-project-docs
+# @walvka-code/proj-doc-builder
 
-DeepSeek Harness **bundle** for the `sync-project-docs` skill: scan, validate and publish
+DeepSeek Harness **bundle** for the `proj-doc-builder` skill: scan, validate and publish
 AI-readable project documentation with a committed scan state.
 
 ## What it mounts
 
 One row in `cordis.patch.yml` registers a bundled skill provider (`rank 600`) that serves the
-`sync-project-docs` skill from `skills/sync-project-docs/`. The skill ships its Python tools
+`proj-doc-builder` skill from `skills/proj-doc-builder/`. The skill ships its Python tools
 (`tools/`), references and tests, and resolves every path against the skill directory the host
 reports — no project-local copy is required. A repository that keeps its own
-`.dsh/skills/sync-project-docs/` still wins over the bundled copy.
+`.dsh/skills/proj-doc-builder/` still wins over the bundled copy.
 
 `index.js` reads `SKILL.md`, parses its frontmatter and exposes the body through `ctx.skills`; it has
 no runtime dependency beyond Node's standard library.
@@ -18,14 +18,14 @@ no runtime dependency beyond Node's standard library.
 
 ```bash
 # market index (Discover → add source)
-https://walvka-code.github.io/sync-project-docs/index.json
-# fallback: https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
+https://walvka-code.github.io/proj-doc-builder/index.json
+# fallback: https://raw.githubusercontent.com/walvka-code/proj-doc-builder/main/index.json
 
 # pin one commit
-git+https://github.com/walvka-code/sync-project-docs.git#<40-hex-commit>&path:/packages/sync-project-docs
+git+https://github.com/walvka-code/proj-doc-builder.git#<40-hex-commit>&path:/packages/proj-doc-builder
 
 # local checkout, via the plugin_manager tool
-{ "action": "install_bundle", "target": "<checkout>/packages/sync-project-docs" }
+{ "action": "install_bundle", "target": "<checkout>/packages/proj-doc-builder" }
 ```
 
 ## Validate without a Harness

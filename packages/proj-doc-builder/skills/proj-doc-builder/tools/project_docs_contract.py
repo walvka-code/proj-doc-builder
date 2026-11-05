@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Shared, security-sensitive contracts for ``project_docs`` tooling.
 
-The module intentionally has no dependency on the other sync-project-docs tools so
+The module intentionally has no dependency on the other proj-doc-builder tools so
 that writers (the coordinator) and any reader can import the same path, link, JSON,
 locking, and manifest rules.
 """
@@ -31,7 +31,7 @@ from typing import Any, Iterable, Iterator, Mapping, Sequence
 from urllib.parse import unquote
 
 MANIFEST_SCHEMA_VERSION = 2
-DEFAULT_PRODUCER_NAME = "sync-project-docs"
+DEFAULT_PRODUCER_NAME = "proj-doc-builder"
 DEFAULT_PRODUCER_VERSION = "3.2"
 MANIFEST_FILENAME = "_manifest.json"
 QUARANTINE_DIRNAME = ".quarantine"
@@ -470,7 +470,7 @@ def project_sync_lock_path(project_root: PathLike) -> Path:
         ) from exc
     if not root.is_dir():
         raise LockError(f"project root is not a directory: {root}")
-    lock_parent = Path(tempfile.gettempdir()) / "sync-project-docs-locks"
+    lock_parent = Path(tempfile.gettempdir()) / "proj-doc-builder-locks"
     try:
         lock_parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     except OSError as exc:

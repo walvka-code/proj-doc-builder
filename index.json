@@ -29,21 +29,21 @@
   },
   "plugins": [
     {
-      "name": "@walvka-code/sync-project-docs",
+      "name": "@walvka-code/proj-doc-builder",
       "title": {
-        "en": "sync-project-docs",
-        "zh": "sync-project-docs 文档同步"
+        "en": "proj_doc_builder",
+        "zh": "proj_doc_builder 文档同步"
       },
       "description": {
         "en": "Scan, validate and publish AI-readable project documentation with a committed scan state: one outline per source directory, incremental sync, and an independent manifest that proves the docs are in sync.",
         "zh": "扫描、校验并发布 AI 可读的项目文档：每个源码目录一份大纲、增量同步，并用独立 manifest 证明文档确实已同步。"
       },
-      "icon": "packages/sync-project-docs/icon.svg",
+      "icon": "packages/proj-doc-builder/icon.svg",
       "author": "walvka-code",
-      "homepage": "https://github.com/walvka-code/sync-project-docs#readme",
+      "homepage": "https://github.com/walvka-code/proj-doc-builder#readme",
       "repository": {
-        "url": "https://github.com/walvka-code/sync-project-docs",
-        "directory": "packages/sync-project-docs"
+        "url": "https://github.com/walvka-code/proj-doc-builder",
+        "directory": "packages/proj-doc-builder"
       },
       "metadata": {
         "category": "documentation",
@@ -65,9 +65,9 @@
           "publishTimestamp": 1793853169,
           "source": {
             "type": "git",
-            "url": "https://github.com/walvka-code/sync-project-docs",
+            "url": "https://github.com/walvka-code/proj-doc-builder",
             "commit": "2ae095e772cb416ace426a18b3ad54cfb52340fe",
-            "path": "packages/sync-project-docs"
+            "path": "packages/proj-doc-builder"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.5"

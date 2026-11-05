@@ -1,7 +1,7 @@
 /**
- * Offline checks for the sync-project-docs bundle package.
+ * Offline checks for the proj-doc-builder bundle package.
  *
- * Run from the repository root:  node packages/sync-project-docs/scripts/check-bundle.mjs
+ * Run from the repository root:  node packages/proj-doc-builder/scripts/check-bundle.mjs
  *
  * It verifies the manifest the loader reads, exercises the bundled skill
  * provider without a Harness, and keeps the market index consistent with the
@@ -51,7 +51,7 @@ await check("package files exist", async () => {
   for (const rel of [pkg.main, pkg.icon, "locale/en.json", "locale/zh.json"]) {
     await stat(join(PKG_DIR, rel));
   }
-  const skillDir = join(PKG_DIR, "skills", "sync-project-docs");
+  const skillDir = join(PKG_DIR, "skills", "proj-doc-builder");
   for (const rel of ["SKILL.md", "tools/sync_project_docs.py", "tools/load_docs.py", "references/templates.md", "tests/conftest.py"]) {
     await stat(join(skillDir, rel));
   }
@@ -59,7 +59,7 @@ await check("package files exist", async () => {
 
 await check("provider registers and serves the skill", async () => {
   const module = await importFile(join(PKG_DIR, "index.js"));
-  assert.equal(module.name, "sync-project-docs");
+  assert.equal(module.name, "proj-doc-builder");
   assert.deepEqual(module.inject, ["skills"]);
   const registered = [];
   module.apply({ skills: { registerProvider: (factory) => registered.push(factory) } });
@@ -68,7 +68,7 @@ await check("provider registers and serves the skill", async () => {
   const list = await provider.list({});
   assert.equal(list.length, 1);
   const candidate = list[0];
-  assert.equal(candidate.name, "sync-project-docs");
+  assert.equal(candidate.name, "proj-doc-builder");
   assert.equal(candidate.rank, 600);
   assert.equal(candidate.source, "bundled");
   assert.ok(candidate.description.length > 40, "description is too short to route on");
@@ -76,13 +76,13 @@ await check("provider registers and serves the skill", async () => {
   assert.equal(candidate.resourceBase.kind, "directory");
   await stat(candidate.resourceBase.path);
   const loaded = await provider.get(candidate, {});
-  assert.equal(loaded.name, "sync-project-docs");
+  assert.equal(loaded.name, "proj-doc-builder");
   assert.ok(loaded.content.length > 5000, "SKILL.md body is suspiciously small");
   assert.ok(!loaded.content.startsWith("---"), "frontmatter leaked into the body");
 });
 
 await check("SKILL.md has no project-local install path", async () => {
-  const skillDir = join(PKG_DIR, "skills", "sync-project-docs");
+  const skillDir = join(PKG_DIR, "skills", "proj-doc-builder");
   const files = [
     join(skillDir, "SKILL.md"),
     ...(await readdir(join(skillDir, "references")))
@@ -91,7 +91,7 @@ await check("SKILL.md has no project-local install path", async () => {
   ];
   for (const file of files) {
     const text = await readFile(file, "utf8");
-    assert.ok(!text.includes(".dsh/skills/sync-project-docs/tools"), `${file} still hardcodes a project-local tools path`);
+    assert.ok(!text.includes(".dsh/skills/proj-doc-builder/tools"), `${file} still hardcodes a project-local tools path`);
   }
 });
 
@@ -114,7 +114,7 @@ await check("market index describes this package", async () => {
   assert.ok(Number.isInteger(version.publishTimestamp));
   if (version.source.type === "git") {
     assert.match(version.source.commit, /^[0-9a-f]{40}$/);
-    assert.equal(version.source.path, "packages/sync-project-docs");
+    assert.equal(version.source.path, "packages/proj-doc-builder");
   } else {
     assert.equal(version.source.type, "npm");
   }

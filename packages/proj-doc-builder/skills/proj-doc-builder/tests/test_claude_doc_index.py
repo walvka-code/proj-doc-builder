@@ -15,7 +15,7 @@ SYNCED = "2026-07-30T09:00:00+08:00"
 def _manifest() -> dict:
     return {
         "schema_version": 2,
-        "producer": {"name": "sync-project-docs", "version": "3.2"},
+        "producer": {"name": "proj-doc-builder", "version": "3.2"},
         "last_synced": SYNCED,
         "files": [
             {

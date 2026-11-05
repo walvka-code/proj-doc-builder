@@ -26,7 +26,7 @@ def _write_doc(docs_root: Path, relative: str, title: str, status: str = "✅") 
                 f"# {title}",
                 "",
                 "<!-- AUTO-GENERATED v3.0: folder-doc START -->",
-                f"<!-- Last synced: {SYNCED} by sync-project-docs v3.2 -->",
+                f"<!-- Last synced: {SYNCED} by proj-doc-builder v3.2 -->",
                 "",
                 "**导航**: project_docs > **" + title.split(" — ")[0] + "**",
                 "",

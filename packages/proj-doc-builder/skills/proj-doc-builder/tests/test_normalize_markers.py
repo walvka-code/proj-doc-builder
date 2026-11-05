@@ -11,9 +11,9 @@ import normalize_markers as normalizer
 
 BAD = (
     "<!-- Last synced: 2026-07-23T16:32:05+08:00 "
-    "by sync-project-docs v3.2 --> v3.1 -->"
+    "by proj-doc-builder v3.2 --> v3.1 -->"
 )
-GOOD = "<!-- Last synced: 2026-07-23T16:32:05+08:00 " "by sync-project-docs v3.2 -->"
+GOOD = "<!-- Last synced: 2026-07-23T16:32:05+08:00 " "by proj-doc-builder v3.2 -->"
 
 
 def _write(path: Path, text: str) -> None:

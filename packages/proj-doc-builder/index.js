@@ -1,34 +1,34 @@
 /**
- * Bundled `sync-project-docs` skill provider for DeepSeek Harness.
+ * Bundled `proj-doc-builder` skill provider for DeepSeek Harness.
  *
  * This package ships the skill (SKILL.md, tools/, references/, tests/) inside
- * `skills/sync-project-docs/`. The provider reads the Markdown body at load time
+ * `skills/proj-doc-builder/`. The provider reads the Markdown body at load time
  * and reports the skill directory as its resource base, so every relative path
  * in the instructions resolves beside the installed package instead of a
- * project-local `.dsh/skills/sync-project-docs/` checkout.
+ * project-local `.dsh/skills/proj-doc-builder/` checkout.
  *
  * Rank 600 is the bundled rank: a project-local or user-level copy of the same
  * skill still wins, which is what lets a repository pin its own version.
  *
- * @module @walvka-code/sync-project-docs
+ * @module @walvka-code/proj-doc-builder
  */
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 /** Cordis plugin name. */
-export const name = "sync-project-docs";
+export const name = "proj-doc-builder";
 
 /** Service required by this bundled provider. */
 export const inject = ["skills"];
 
 /** Registry provider name; unique across mounted skill providers. */
-const PROVIDER_NAME = "sync-project-docs";
+const PROVIDER_NAME = "proj-doc-builder";
 
 /** Standard precedence rank for packaged skill providers and local bundled roots. */
 const BUNDLED_SKILL_RANK = 600;
 
-const SKILL_DIR = join(dirname(fileURLToPath(import.meta.url)), "skills", "sync-project-docs");
+const SKILL_DIR = join(dirname(fileURLToPath(import.meta.url)), "skills", "proj-doc-builder");
 const SKILL_FILE = join(SKILL_DIR, "SKILL.md");
 
 /** Used only when SKILL.md frontmatter cannot be read, so the catalog never loses the skill. */

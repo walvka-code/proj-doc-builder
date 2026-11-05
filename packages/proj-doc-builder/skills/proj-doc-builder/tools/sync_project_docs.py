@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Deterministic coordinator for the ``sync-project-docs`` publish transaction.
+"""Deterministic coordinator for the ``proj-doc-builder`` publish transaction.
 
 The coordinator does not generate prose.  It stages the current document tree,
 mechanically normalizes only known marker corruption, runs all safety gates, and
@@ -47,7 +47,7 @@ EXIT_INPUT_ERROR = 2
 EXIT_PUBLISH_FAILED = 3
 SCAN_STATE_FILENAME = "_scan_state.json"
 PUBLISH_JOURNAL_SCHEMA_VERSION = 2
-PUBLISH_JOURNAL_KIND = "sync-project-docs-publish-transaction"
+PUBLISH_JOURNAL_KIND = "proj-doc-builder-publish-transaction"
 _PUBLISH_JOURNAL_TEMP_MARKER = contract.COORDINATOR_TEMP_MARKER
 _PUBLISH_ARTIFACT_ROOT_MARKER = contract.COORDINATOR_ARTIFACT_ROOT_MARKER
 _PUBLISH_RETAINED_ARTIFACT_MARKER = contract.COORDINATOR_RETAINED_ARTIFACT_MARKER
@@ -3268,7 +3268,7 @@ def _create_stage_root(paths: ProjectPaths) -> Path:
     try:
         created = Path(
             tempfile.mkdtemp(
-                prefix="sync-project-docs-stage-",
+                prefix="proj-doc-builder-stage-",
                 dir=system_temp,
             )
         )
@@ -3582,7 +3582,7 @@ def _emit(result: Mapping[str, Any], *, as_json: bool) -> None:
         sys.stdout.write(contract.stable_json_dumps(dict(result)))
         return
     status = "通过" if result.get("ok") else "失败"
-    print(f"sync-project-docs {result.get('mode', 'unknown')}: {status}")
+    print(f"proj-doc-builder {result.get('mode', 'unknown')}: {status}")
     manifest = result.get("manifest")
     if isinstance(manifest, Mapping):
         print(
