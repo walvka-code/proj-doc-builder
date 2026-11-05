@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "title": {
+    "en": "walvka-code",
+    "zh": "walvka-code 插件"
+  },
+  "description": {
+    "en": "Bundles published by walvka-code for DeepSeek Harness.",
+    "zh": "walvka-code 发布的 DeepSeek Harness 插件包。"
+  },
+  "metadata": {
+    "categories": {
+      "documentation": {
+        "title": {
+          "en": "Documentation",
+          "zh": "文档"
+        }
+      }
+    },
+    "labels": {
+      "skill": {
+        "title": {
+          "en": "Skill bundle",
+          "zh": "技能包"
+        }
+      }
+    },
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "@walvka-code/sync-project-docs",
+      "title": {
+        "en": "sync-project-docs",
+        "zh": "sync-project-docs 文档同步"
+      },
+      "description": {
+        "en": "Scan, validate and publish AI-readable project documentation with a committed scan state: one outline per source directory, incremental sync, and an independent manifest that proves the docs are in sync.",
+        "zh": "扫描、校验并发布 AI 可读的项目文档：每个源码目录一份大纲、增量同步，并用独立 manifest 证明文档确实已同步。"
+      },
+      "icon": "packages/sync-project-docs/icon.svg",
+      "author": "walvka-code",
+      "homepage": "https://github.com/walvka-code/sync-project-docs#readme",
+      "repository": {
+        "url": "https://github.com/walvka-code/sync-project-docs",
+        "directory": "packages/sync-project-docs"
+      },
+      "metadata": {
+        "category": "documentation",
+        "keywords": [
+          "documentation",
+          "project-docs",
+          "skill",
+          "manifest",
+          "sync"
+        ],
+        "labels": [
+          "skill"
+        ],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "3.2.0",
+          "publishTimestamp": 1793853169,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/walvka-code/sync-project-docs",
+            "commit": "2ae095e772cb416ace426a18b3ad54cfb52340fe",
+            "path": "packages/sync-project-docs"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.5"
+          }
+        }
+      ]
+    }
+  ]
+}

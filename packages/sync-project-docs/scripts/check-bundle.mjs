@@ -114,7 +114,7 @@ await check("market index describes this package", async () => {
   assert.ok(Number.isInteger(version.publishTimestamp));
   if (version.source.type === "git") {
     assert.match(version.source.commit, /^[0-9a-f]{40}$/);
-    assert.equal(version.source.path, "/packages/sync-project-docs");
+    assert.equal(version.source.path, "packages/sync-project-docs");
   } else {
     assert.equal(version.source.type, "npm");
   }
