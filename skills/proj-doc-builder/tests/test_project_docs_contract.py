@@ -26,9 +26,9 @@ def _write_doc(
     path.parent.mkdir(parents=True, exist_ok=True)
     marker = ""
     if synced_at is not None:
-        marker = f"<!-- Last synced: {synced_at} by proj-doc-builder v3.2 -->"
+        marker = f"<!-- Last synced: {synced_at} by proj-doc-builder v4.0 -->"
         if repeated_suffix:
-            marker += " by proj-doc-builder v3.2 -->"
+            marker += " by proj-doc-builder v4.0 -->"
         marker += "\n"
     path.write_text(
         f"# {title}\n\n{marker}\n## 状态\n\n{status} 完整\n",
@@ -535,7 +535,7 @@ def test_manifest_v2_roundtrip_and_stable_generation(tmp_path: Path) -> None:
     second = contract.build_manifest(root, last_synced=SYNCED_2)
 
     assert first["schema_version"] == 2
-    assert first["producer"] == {"name": "proj-doc-builder", "version": "3.2"}
+    assert first["producer"] == {"name": "proj-doc-builder", "version": "4.0"}
     assert first["docs_root"] == "project_docs"
     assert first["total"] == 2
     assert first["depth_counts"] == {"0": 1, "1": 1}

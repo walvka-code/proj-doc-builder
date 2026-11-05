@@ -32,7 +32,7 @@ from urllib.parse import unquote
 
 MANIFEST_SCHEMA_VERSION = 2
 DEFAULT_PRODUCER_NAME = "proj-doc-builder"
-DEFAULT_PRODUCER_VERSION = "3.2"
+DEFAULT_PRODUCER_VERSION = "4.0"
 MANIFEST_FILENAME = "_manifest.json"
 QUARANTINE_DIRNAME = ".quarantine"
 COORDINATOR_JOURNAL_SUFFIX = ".publish-transaction.json"

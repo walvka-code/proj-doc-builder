@@ -1,6 +1,6 @@
 {
   "name": "@walvka-code/proj-doc-builder",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "DeepSeek Harness bundle for the proj-doc-builder skill: scan, validate and publish AI-readable project documentation with committed scan state.",
   "icon": "./icon.svg",
   "type": "module",
@@ -48,5 +48,10 @@
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
+  },
+  "scripts": {
+    "check": "node scripts/check-bundle.mjs",
+    "test": "node --test",
+    "release": "node scripts/release.mjs"
   }
 }

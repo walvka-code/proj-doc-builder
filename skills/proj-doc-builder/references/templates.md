@@ -1,6 +1,6 @@
 # 文档模板 (Phase 2.6)
 
-proj-doc-builder v3.2 使用以下模板。Agent 在 Phase 2 生成文档时应严格遵循。
+proj-doc-builder v4.0 使用以下模板。Agent 在 Phase 2 生成文档时应严格遵循。
 
 ---
 
@@ -47,7 +47,7 @@ proj-doc-builder v3.2 使用以下模板。Agent 在 Phase 2 生成文档时应�
 
 <!-- DOC-PATH: project_docs/<relpath>/<folder_name>.md -->
 <!-- AUTO-GENERATED v3.0: folder-doc START -->
-<!-- Last synced: <ISO8601> by proj-doc-builder v3.2 -->
+<!-- Last synced: <ISO8601> by proj-doc-builder v4.0 -->
 
 **导航**: <parent_breadcrumb> > **<folder_name>**
 
@@ -140,7 +140,7 @@ result = engine.execute(data)
 
 <!-- DOC-PATH: project_docs/<relpath>/<folder_name>.md -->
 <!-- AUTO-GENERATED v3.0: folder-doc START -->
-<!-- Last synced: <ISO8601> by proj-doc-builder v3.2 -->
+<!-- Last synced: <ISO8601> by proj-doc-builder v4.0 -->
 
 **导航**: <parent_breadcrumb> > **<folder_name>**
 

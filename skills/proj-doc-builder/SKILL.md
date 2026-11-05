@@ -8,7 +8,7 @@ description: >
   以及「发现漂移要登记而不是粉饰」的纪律。
   Triggers: "同步文档", "project_docs", "文档树", "CLAUDE.md", "generate docs",
   "sync docs", "validate docs", "文档漂移", "权威顺序", "索引不是权威"
-version: "3.2"
+version: "4.0"
 disable-model-invocation: false
 user-invocable: true
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - Grep
 ---
 
-# proj_doc_builder v3.2 — 分阶段生成与确定性发布
+# proj_doc_builder v4.0 — 分阶段生成与确定性发布
 
 > **路径约定（必读）**：下文 `<skill-dir>` 指本 `SKILL.md` 所在目录的**绝对路径**——
 > 技能加载结果里的 `Base directory for this skill` 就是它。所有命令都在**项目根**执行，

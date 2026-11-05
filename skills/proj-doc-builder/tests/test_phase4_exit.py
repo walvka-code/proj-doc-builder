@@ -56,7 +56,7 @@ def _write_doc(
         f"# {title}",
         "",
         marker,
-        f"<!-- Last synced: {SYNCED_AT} by proj-doc-builder v3.2 -->",
+        f"<!-- Last synced: {SYNCED_AT} by proj-doc-builder v4.0 -->",
     ]
     if overview is not None:
         sections.extend(["", "## 概述", "", overview])

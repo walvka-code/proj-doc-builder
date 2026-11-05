@@ -68,3 +68,6 @@ jobs:
 
       - name: Check bundle package and market index
         run: node scripts/check-bundle.mjs
+
+      - name: Test the bundled provider
+        run: node --test

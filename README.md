@@ -234,7 +234,9 @@ Three things to know on Linux:
 ## Tests
 
 ```bash
-python -m pytest skills/proj-doc-builder/tests -q
+python -m pytest skills/proj-doc-builder/tests -q   # the Python tools (360 cases)
+npm test                                            # the bundled provider + frontmatter reader
+npm run check                                       # manifest, patch, packaged files, market index
 ```
 
 **360 tests** (Windows: 354 passed / 6 skipped; on Linux only the Windows-handle-semantics tests
