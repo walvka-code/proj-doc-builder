@@ -51,23 +51,32 @@ if (!plugin) fail("index.json lists no plugin");
 const version = plugin.versions?.[0];
 if (!version) fail("index.json lists no version");
 const head = git("rev-parse", "HEAD");
-const pinned = version.source.commit;
+const npmSource = version.source.type === "npm";
+const pinned = npmSource ? null : version.source.commit;
 
-const ancestor = tryGit("merge-base", "--is-ancestor", pinned, head).ok;
+const ancestor = pinned === null ? true : tryGit("merge-base", "--is-ancestor", pinned, head).ok;
 const packageChanged =
-  !ancestor ||
-  tryGit("diff", "--quiet", pinned, head, "--", ".", ":(exclude)index.json").ok === false;
+  pinned !== null &&
+  (!ancestor ||
+    tryGit("diff", "--quiet", pinned, head, "--", ".", ":(exclude)index.json").ok === false);
 const versionChanged = version.version !== pkg.version;
 
 if (!packageChanged && !versionChanged) {
-  console.log(`release: up to date (v${pkg.version} at ${pinned.slice(0, 7)})`);
+  const where = npmSource
+    ? `npm ${plugin.name}@${version.version}`
+    : `v${pkg.version} at ${pinned.slice(0, 7)}`;
+  console.log(`release: up to date (${where})`);
   process.exit(0);
 }
 
 console.log(`release: v${version.version} -> v${pkg.version}`);
-console.log(`release: ${pinned.slice(0, 7)} -> ${head.slice(0, 7)}`);
+if (npmSource) {
+  console.log(`release: source npm (${plugin.name})`);
+} else {
+  console.log(`release: ${pinned.slice(0, 7)} -> ${head.slice(0, 7)}`);
+}
 version.version = pkg.version;
-version.source.commit = head;
+if (!npmSource) version.source.commit = head;
 if (versionChanged) version.publishTimestamp = Math.floor(Date.now() / 1000);
 
 const rendered = `${JSON.stringify(index, null, 2)}\n`;
@@ -93,5 +102,7 @@ if (push) {
   console.log("release: not pushed (pass --push)");
 }
 
-const spec = `git+${version.source.url}.git#${version.source.commit}`;
+const spec = npmSource
+  ? `${plugin.name}@${version.version}`
+  : `git+${version.source.url}.git#${version.source.commit}`;
 console.log(`release: install spec ${spec}`);

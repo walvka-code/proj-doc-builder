@@ -61,11 +61,9 @@
       "versions": [
         {
           "version": "4.0.0",
-          "publishTimestamp": 1793858852,
+          "publishTimestamp": 1793861892,
           "source": {
-            "type": "git",
-            "url": "https://github.com/walvka-code/proj-doc-builder",
-            "commit": "519406f914a117c0325136f987643230ab29198c"
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.5"
