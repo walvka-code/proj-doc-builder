@@ -5,3 +5,6 @@ __pycache__/
 # pytest caches
 .pytest_cache/
 .pytest_cache
+
+# Harness CLI local state (created when the CLI runs from this directory)
+.local/
