@@ -21,6 +21,12 @@ allowed-tools:
 
 # sync-project-docs v3.2 — 分阶段生成与确定性发布
 
+> **路径约定（必读）**：下文 `<skill-dir>` 指本 `SKILL.md` 所在目录的**绝对路径**——
+> 技能加载结果里的 `Base directory for this skill` 就是它。所有命令都在**项目根**执行，
+> 因此脚本一律写成 `<skill-dir>/tools/xxx.py`；路径含空格时必须保留示例中的双引号。
+> 技能以 DSH bundle 安装时 `<skill-dir>` 在 profile 的包目录内，以项目技能安装时它是
+> `<项目根>/.dsh/skills/` 下的同名目录——两种布局下本文命令都成立。
+
 本 skill 分为两类工作：
 
 1. **模型生成/更新文档正文**：只处理 scanner 选出的新增或变化源码目录。
@@ -46,16 +52,16 @@ allowed-tools:
 
 | 工具 | 职责 |
 |---|---|
-| `.dsh/skills/sync-project-docs/tools/project_docs_contract.py` | 路径、UTF-8、严格 JSON、链接、manifest、锁和原子写的唯一契约 |
-| `.dsh/skills/sync-project-docs/tools/scan_dirs.py` | 内容哈希目录快照；生成 candidate，不提前推进 committed baseline |
-| `.dsh/skills/sync-project-docs/tools/compute_link.py` | 计算或验证单个/批量相对文档链接 |
-| `.dsh/skills/sync-project-docs/tools/validate_doc.py` | standard / placeholder profile 文档质量检查，只报告不修改 |
-| `.dsh/skills/sync-project-docs/tools/link_check.py` | 全库只读链接检查；**不生成 manifest** |
-| `.dsh/skills/sync-project-docs/tools/normalize_markers.py` | 仅规范化可精确识别的历史损坏 marker |
-| `.dsh/skills/sync-project-docs/tools/claude_doc_index.py` | 只从候选 manifest 生成 `doc-tree-instruction` |
-| `.dsh/skills/sync-project-docs/tools/phase4_exit.py` | fail-closed 报告、显式 quarantine、receipt restore 和持久 journal recovery；不删除活动文档 |
-| `.dsh/skills/sync-project-docs/tools/sync_project_docs.py` | staging、闸门、统一根锁、发布与回滚的唯一协调器 |
-| `.dsh/skills/sync-project-docs/tools/load_docs.py` | 加载器（只读）：先校验 manifest 与文档完全一致，再输出工程概览或单份文档/单节——给新对话一个入口 |
+| `<skill-dir>/tools/project_docs_contract.py` | 路径、UTF-8、严格 JSON、链接、manifest、锁和原子写的唯一契约 |
+| `<skill-dir>/tools/scan_dirs.py` | 内容哈希目录快照；生成 candidate，不提前推进 committed baseline |
+| `<skill-dir>/tools/compute_link.py` | 计算或验证单个/批量相对文档链接 |
+| `<skill-dir>/tools/validate_doc.py` | standard / placeholder profile 文档质量检查，只报告不修改 |
+| `<skill-dir>/tools/link_check.py` | 全库只读链接检查；**不生成 manifest** |
+| `<skill-dir>/tools/normalize_markers.py` | 仅规范化可精确识别的历史损坏 marker |
+| `<skill-dir>/tools/claude_doc_index.py` | 只从候选 manifest 生成 `doc-tree-instruction` |
+| `<skill-dir>/tools/phase4_exit.py` | fail-closed 报告、显式 quarantine、receipt restore 和持久 journal recovery；不删除活动文档 |
+| `<skill-dir>/tools/sync_project_docs.py` | staging、闸门、统一根锁、发布与回滚的唯一协调器 |
+| `<skill-dir>/tools/load_docs.py` | 加载器（只读）：先校验 manifest 与文档完全一致，再输出工程概览或单份文档/单节——给新对话一个入口 |
 
 详细规则见 `references/`。
 
@@ -77,7 +83,7 @@ $env:PYTHONIOENCODING='utf-8'
 ## Phase 1：首次 coordinator dry-run
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --dry-run --json
+python "<skill-dir>/tools/sync_project_docs.py" . --dry-run --json
 ```
 
 退出码：
@@ -131,7 +137,7 @@ scanner 使用直接普通文件 SHA-256；相同 size/mtime 的内容变化也�
 不得手工计算 `../`：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/compute_link.py `
+python "<skill-dir>/tools/compute_link.py" `
   --project-docs project_docs `
   --from <当前文档相对路径> `
   --to <目标文档相对路径>
@@ -142,7 +148,7 @@ python .dsh/skills/sync-project-docs/tools/compute_link.py `
 ### 2.4 单文档校验
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/validate_doc.py `
+python "<skill-dir>/tools/validate_doc.py" `
   <doc.md> --source-dir <source_dir> --strict --json
 ```
 
@@ -175,7 +181,7 @@ python .dsh/skills/sync-project-docs/tools/validate_doc.py `
 更新正文后反复运行：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --dry-run --json
+python "<skill-dir>/tools/sync_project_docs.py" . --dry-run --json
 ```
 
 必须同时满足：
@@ -192,7 +198,7 @@ python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --dry-run --js
 `link_check.py` 仅做只读链接校验：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/link_check.py --project-docs project_docs --json
+python "<skill-dir>/tools/link_check.py" --project-docs project_docs --json
 ```
 
 不得把它描述为 manifest 生成器。
@@ -202,7 +208,7 @@ python .dsh/skills/sync-project-docs/tools/link_check.py --project-docs project_
 普通同步只读取 coordinator 内嵌的 Phase 4 report。也可独立运行：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --json
+python "<skill-dir>/tools/phase4_exit.py" . --json
 ```
 
 只有同时满足以下条件才可成为 quarantine candidate：
@@ -219,19 +225,19 @@ python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --json
 若 report 存在 candidate，普通 sync 可继续发布文档、marker 修复、CLAUDE 文档树和 manifest，但不推进 scan baseline（警告 `scan-baseline-frozen`）。这一设计使解除入站引用的文档编辑得以发布，避免 coordinator 闸门与 Phase 4 manifest 一致性校验相互死锁。只有用户另行明确要求 quarantine 时才运行：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --apply --json
+python "<skill-dir>/tools/phase4_exit.py" . --apply --json
 ```
 
 恢复 receipt：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --restore <RECEIPT_ID> --json
+python "<skill-dir>/tools/phase4_exit.py" . --restore <RECEIPT_ID> --json
 ```
 
 quarantine/restore 在第一次内容变更前排他发布不可变的 `.phase4-transaction.json` prepared journal；后镜像准备完成后再以 no-replace 方式发布不可变的 `.phase4-transaction-ready.json` companion，绝不原地覆盖 prepared。manifest 通过 before/after anchor 执行 no-replace CAS，是唯一 commit point。restore 使用独立 transaction anchor 发布目标，原 quarantine payload 不与目标共享 inode。若进程被强制终止，或 journal/artifact 清理失败，所有普通动作和 coordinator 都会返回 `phase4-recovery-required`。此时必须先运行：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --recover --json
+python "<skill-dir>/tools/phase4_exit.py" . --recover --json
 ```
 
 恢复只接受 journal 记录的精确 before/after 状态：manifest、活动文档、target/source、receipt、payload 或 CLAUDE 出现人工/并发变化时保留现场并 fail closed。无 pending journal 的 `--recover` 是成功 no-op。
@@ -243,7 +249,7 @@ python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --recover --json
 所有闸门通过后：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --apply --json
+python "<skill-dir>/tools/sync_project_docs.py" . --apply --json
 ```
 
 固定事务语义：
@@ -260,7 +266,7 @@ python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --apply --json
 若返回 `coordinator-recovery-required`，必须运行协调器自己的恢复入口：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --recover --json
+python "<skill-dir>/tools/sync_project_docs.py" . --recover --json
 ```
 
 它与 `phase4_exit.py --recover` 是两个独立状态机：前者恢复普通 sync 发布，后者恢复 quarantine/restore。无 pending coordinator journal 时，`--recover` 是成功 no-op。
@@ -272,7 +278,7 @@ manifest schema v2 包含 `generation_id`、producer、docs root、total、depth
 发布后再次运行同一 dry-run：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/sync_project_docs.py . --dry-run --json
+python "<skill-dir>/tools/sync_project_docs.py" . --dry-run --json
 ```
 
 预期：
@@ -340,5 +346,5 @@ git diff
 
 ## 收尾自检
 ```bash
-python -m pytest tests -q            # 本技能自带的用例（Windows 上部分用例按平台跳过）
+python -m pytest "<skill-dir>/tests" -q    # 本技能自带的用例（Windows 上部分用例按平台跳过）
 ```

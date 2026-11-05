@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "sync-project-docs 文档同步",
+    "description": "扫描、校验并发布 AI 可读的项目文档，附带已提交的扫描基线。"
+  }
+}

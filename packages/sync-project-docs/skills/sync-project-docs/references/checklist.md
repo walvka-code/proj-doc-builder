@@ -1,6 +1,6 @@
 # 文档质量校验清单
 
-`.dsh/skills/sync-project-docs/tools/validate_doc.py` 使用两种明确 profile。质量校验不得用替换字符读取损坏的 UTF-8，也不得只按表格行数推断内容完整性。
+`<skill-dir>/tools/validate_doc.py` 使用两种明确 profile。质量校验不得用替换字符读取损坏的 UTF-8，也不得只按表格行数推断内容完整性。
 
 ## 文件清单完整性审计（铁律）
 
@@ -57,13 +57,13 @@
 
 ```bash
 # 默认根据文档状态和源码内容选择 profile
-python .dsh/skills/sync-project-docs/tools/validate_doc.py <doc.md> --source-dir <source_dir>
+python "<skill-dir>/tools/validate_doc.py" <doc.md> --source-dir <source_dir>
 
 # 同步闸门：任何失败返回非零
-python .dsh/skills/sync-project-docs/tools/validate_doc.py <doc.md> --source-dir <source_dir> --strict
+python "<skill-dir>/tools/validate_doc.py" <doc.md> --source-dir <source_dir> --strict
 
 # 机器输出；stdout 只能包含 JSON
-python .dsh/skills/sync-project-docs/tools/validate_doc.py <doc.md> --source-dir <source_dir> --strict --json
+python "<skill-dir>/tools/validate_doc.py" <doc.md> --source-dir <source_dir> --strict --json
 ```
 
 退出码约定：

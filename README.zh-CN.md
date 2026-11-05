@@ -5,15 +5,20 @@
 > **语言**：[English](README.md)（默认）· **中文**
 >
 > 英文是默认版本；本文件为同步翻译，改内容时两版一起改。
+>
+> 同时提供 **DeepSeek Harness bundle**（`@walvka-code/sync-project-docs`）与普通 CLI 两种用法。
 
 ```bash
+# 技能目录：SKILL.md 与 tools/ 都在这里
+SKILL="$(pwd)/packages/sync-project-docs/skills/sync-project-docs"
+
 # 同步：生成/更新文档索引（先看，不写盘 → 确认后发布）
-python tools/sync_project_docs.py . --dry-run --json
-python tools/sync_project_docs.py . --apply --json
+python "$SKILL/tools/sync_project_docs.py" . --dry-run --json
+python "$SKILL/tools/sync_project_docs.py" . --apply --json
 
 # 加载：给新对话一个入口（概览 → 定位到某一份）
-python tools/load_docs.py . --json
-python tools/load_docs.py . --mode target --target src/core --json
+python "$SKILL/tools/load_docs.py" . --json
+python "$SKILL/tools/load_docs.py" . --mode target --target src/core --json
 ```
 
 它做的三件事：
@@ -29,6 +34,7 @@ python tools/load_docs.py . --mode target --target src/core --json
 ## 目录
 
 - [安装](#安装)
+- [仓库布局](#仓库布局)
 - [它解决的两个问题](#它解决的两个问题)
 - [核心保证](#核心保证)
 - [工作流六阶段](#工作流六阶段)
@@ -43,19 +49,64 @@ python tools/load_docs.py . --mode target --target src/core --json
 
 ## 安装
 
-**方式一：作为 agent skill** —— 放到 `<project>/.dsh/skills/sync-project-docs/`（`SKILL.md` 内的命令按此路径书写）。
+本仓本身是一个 **DeepSeek Harness bundle**，把技能、Python 工具和测试一起打包。按你的 agent 选一种：
 
-**方式二：当普通 CLI 用**（不需要任何 agent 框架）
+**方式一：DSH bundle（推荐）**
+
+在 **Plugins → More → 开启 Custom plugin markets → Discover** 里加入本仓的索引地址，然后安装
+`sync-project-docs`：
+
+```text
+https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
+```
+
+不用市场时，可直接钉住某个 commit（bundle 是仓库里的一个包目录）：
+
+```bash
+git+https://github.com/walvka-code/sync-project-docs.git#<40 位 commit>&path:/packages/sync-project-docs
+```
+
+或用 `plugin_manager` 装本地检出：
+
+```json
+{ "action": "install_bundle", "target": "C:/path/to/sync-project-docs/packages/sync-project-docs" }
+```
+
+bundle 挂载一个 bundled 技能提供方（rank 600）：技能在 profile 的**所有会话**里可用；若某个项目自带
+`.dsh/skills/sync-project-docs/`，项目副本优先（用于钉住版本）。
+
+**方式二：作为项目技能**
+
+把 `packages/sync-project-docs/skills/sync-project-docs/` 复制到
+`<project>/.dsh/skills/sync-project-docs/`。`SKILL.md` 用宿主报告的技能目录解析工具路径，
+两种布局都成立。
+
+**方式三：当普通 CLI 用**（不需要任何 agent 框架）
 
 ```bash
 git clone <this-repo> sync-project-docs
-cd sync-project-docs
-python tools/sync_project_docs.py /path/to/your/project --dry-run --json
+SKILL="$(pwd)/sync-project-docs/packages/sync-project-docs/skills/sync-project-docs"
+python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --json
 ```
 
 **Python 3.12+，运行时零第三方依赖**（仅标准库）。测试需要 `pytest`（见 `requirements-dev.txt`）。
 
 前置条件：你的项目根要有 `project_docs/` 与 `CLAUDE.md` 两个入口。
+
+---
+
+## 仓库布局
+
+```text
+sync-project-docs/
+├── index.json                          # 插件市场索引（format 1）
+├── packages/sync-project-docs/         # DSH bundle 包
+│   ├── package.json                    # name / dsh.bundle.patch / engines
+│   ├── cordis.patch.yml                # 挂载 bundled 技能提供方
+│   ├── index.js                        # 读取 SKILL.md 并注册技能
+│   └── skills/sync-project-docs/       # SKILL.md + tools/ + references/ + tests/
+└── .github/workflows/ci.yml
+```
 
 ---
 
@@ -122,15 +173,15 @@ python tools/sync_project_docs.py /path/to/your/project --dry-run --json
 
 ```bash
 # 概览：树 + 每份文档的 title/status/字节数/小节名（默认 80 份、每份 6 个小节名）
-python tools/load_docs.py . --json
-python tools/load_docs.py . --limit 0 --sections 0 --json   # 全部文档、只要元数据
+python "$SKILL/tools/load_docs.py" . --json
+python "$SKILL/tools/load_docs.py" . --limit 0 --sections 0 --json   # 全部文档、只要元数据
 
 # 定位：源码目录 / 文档路径 / 工程相对路径都可以
-python tools/load_docs.py . --mode target --target src/core --json
-python tools/load_docs.py . --mode target --target project_docs/src/core.md --json
+python "$SKILL/tools/load_docs.py" . --mode target --target src/core --json
+python "$SKILL/tools/load_docs.py" . --mode target --target project_docs/src/core.md --json
 
 # 只要某一节
-python tools/load_docs.py . --mode target --target src/core --section 依赖关系 --json
+python "$SKILL/tools/load_docs.py" . --mode target --target src/core --section 依赖关系 --json
 ```
 
 **先校验再加载**：manifest 与磁盘文档不一致（被改过、或多出未注册文档）时退出 `1` 并报 `manifest-stale`，绝不在陈旧索引上服务。
@@ -158,7 +209,7 @@ Linux 上必须知道的三条：
 ## 测试
 
 ```bash
-python -m pytest tests -q
+python -m pytest packages/sync-project-docs/skills/sync-project-docs/tests -q
 ```
 
 **360 个用例**（Windows：354 passed / 6 skipped；Linux 差异仅在于"Windows 句柄语义"用例反向跳过），全部使用 `tmp_path`，不触碰真实 `project_docs/`。锁定的不是"功能"而是**崩溃一致性**：

@@ -29,7 +29,7 @@ jobs:
           python -m pip install -r requirements-dev.txt
 
       - name: Run test suite
-        run: python -m pytest tests -q
+        run: python -m pytest packages/sync-project-docs/skills/sync-project-docs/tests -q
 
   # Runs the suite inside a container, so pytest's tmp_path lands on overlayfs
   # instead of the runner's ext4. That is the only job that exercises the
@@ -51,4 +51,20 @@ jobs:
           df -h /tmp | tail -n 1
 
       - name: Run test suite
-        run: python -m pytest tests -q
+        run: python -m pytest packages/sync-project-docs/skills/sync-project-docs/tests -q
+
+  # The bundle is what users install; validate its manifest, patch and skill
+  # provider without a DSH installation, and keep index.json in step with it.
+  bundle:
+    name: bundle manifest (node 22)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check bundle package and market index
+        run: node packages/sync-project-docs/scripts/check-bundle.mjs

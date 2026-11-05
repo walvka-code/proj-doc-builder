@@ -6,15 +6,20 @@ one command to load it.
 > **Language**: **English** (default) · [中文](README.zh-CN.md)
 >
 > `README.zh-CN.md` is a synced translation — update both together.
+>
+> Ships as a **DeepSeek Harness bundle** (`@walvka-code/sync-project-docs`) **and** as a plain CLI.
 
 ```bash
+# The skill directory: SKILL.md + tools/ live here
+SKILL="$(pwd)/packages/sync-project-docs/skills/sync-project-docs"
+
 # Sync: build/refresh the documentation index (preview first, then publish)
-python tools/sync_project_docs.py . --dry-run --json
-python tools/sync_project_docs.py . --apply --json
+python "$SKILL/tools/sync_project_docs.py" . --dry-run --json
+python "$SKILL/tools/sync_project_docs.py" . --apply --json
 
 # Load: give a fresh conversation an entry point (overview → one document)
-python tools/load_docs.py . --json
-python tools/load_docs.py . --mode target --target src/core --json
+python "$SKILL/tools/load_docs.py" . --json
+python "$SKILL/tools/load_docs.py" . --mode target --target src/core --json
 ```
 
 What it does:
@@ -34,6 +39,7 @@ not by the model that produced the prose.**
 ## Contents
 
 - [Install](#install)
+- [Repository layout](#repository-layout)
 - [The two problems it solves](#the-two-problems-it-solves)
 - [Guarantees](#guarantees)
 - [The six-phase workflow](#the-six-phase-workflow)
@@ -48,21 +54,67 @@ not by the model that produced the prose.**
 
 ## Install
 
-**Option 1 — as an agent skill**: drop it at `<project>/.dsh/skills/sync-project-docs/`
-(the commands inside `SKILL.md` assume that location).
+The repository is a **DeepSeek Harness bundle** that packages the skill, its Python tools and its
+tests. Pick the install that fits your agent:
 
-**Option 2 — as a plain CLI** (no agent framework needed)
+**Option 1 — DeepSeek Harness bundle (recommended)**
+
+Add this market index under **Plugins → More → Custom plugin markets → Discover**, then install
+`sync-project-docs`:
+
+```text
+https://raw.githubusercontent.com/walvka-code/sync-project-docs/main/index.json
+```
+
+Without the market, pin one commit (the bundle is a package directory in Git):
+
+```bash
+git+https://github.com/walvka-code/sync-project-docs.git#<40-hex-commit>&path:/packages/sync-project-docs
+```
+
+or install a local checkout with the `plugin_manager` tool:
+
+```json
+{ "action": "install_bundle", "target": "C:/path/to/sync-project-docs/packages/sync-project-docs" }
+```
+
+The bundle mounts one bundled skill provider (rank 600): the skill is available in **every** session
+of the profile, and a project-local `.dsh/skills/sync-project-docs/` copy still wins when a repository
+wants to pin its own version.
+
+**Option 2 — as a project skill**
+
+Copy `packages/sync-project-docs/skills/sync-project-docs/` to
+`<project>/.dsh/skills/sync-project-docs/`. `SKILL.md` resolves its tools through the skill directory
+the host reports, so both layouts work unchanged.
+
+**Option 3 — as a plain CLI** (no agent framework needed)
 
 ```bash
 git clone <this-repo> sync-project-docs
-cd sync-project-docs
-python tools/sync_project_docs.py /path/to/your/project --dry-run --json
+SKILL="$(pwd)/sync-project-docs/packages/sync-project-docs/skills/sync-project-docs"
+python "$SKILL/tools/sync_project_docs.py" /path/to/your/project --dry-run --json
 ```
 
 **Python 3.12+, zero third-party runtime dependencies** (standard library only).
 Tests need `pytest` (see `requirements-dev.txt`).
 
 Prerequisites: your project root needs a `project_docs/` directory and a `CLAUDE.md` entry point.
+
+---
+
+## Repository layout
+
+```text
+sync-project-docs/
+├── index.json                          # plugin market index (format 1)
+├── packages/sync-project-docs/         # the DSH bundle package
+│   ├── package.json                    # name / dsh.bundle.patch / engines
+│   ├── cordis.patch.yml                # mounts the bundled skill provider
+│   ├── index.js                        # reads SKILL.md, registers the skill
+│   └── skills/sync-project-docs/       # SKILL.md + tools/ + references/ + tests/
+└── .github/workflows/ci.yml
+```
 
 ---
 
@@ -178,7 +230,7 @@ Three things to know on Linux:
 ## Tests
 
 ```bash
-python -m pytest tests -q
+python -m pytest packages/sync-project-docs/skills/sync-project-docs/tests -q
 ```
 
 **360 tests** (Windows: 354 passed / 6 skipped; on Linux only the Windows-handle-semantics tests

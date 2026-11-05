@@ -1,0 +1,53 @@
+{
+  "name": "@walvka-code/sync-project-docs",
+  "version": "3.2.0",
+  "description": "DeepSeek Harness bundle for the sync-project-docs skill: scan, validate and publish AI-readable project documentation with committed scan state.",
+  "icon": "./icon.svg",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./skills/*": "./skills/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "locale/*.json",
+    "README.md",
+    "skills/**/*"
+  ],
+  "keywords": [
+    "dsh-bundle",
+    "dsh-skill",
+    "project-docs",
+    "documentation",
+    "sync"
+  ],
+  "license": "MIT",
+  "author": "walvka-code",
+  "homepage": "https://github.com/walvka-code/sync-project-docs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walvka-code/sync-project-docs.git",
+    "directory": "packages/sync-project-docs"
+  },
+  "bugs": {
+    "url": "https://github.com/walvka-code/sync-project-docs/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20",
+    "dsh": ">=0.2.1-rc.5"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

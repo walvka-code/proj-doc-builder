@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "sync-project-docs",
+    "description": "Scan, validate and publish AI-readable project documentation with a committed scan state."
+  }
+}

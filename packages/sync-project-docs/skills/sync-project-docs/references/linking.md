@@ -2,7 +2,7 @@
 
 ## 单一规则来源
 
-`.dsh/skills/sync-project-docs/tools/project_docs_contract.py` 是文档路径和 Markdown 链接解析的唯一规则来源。`compute_link.py`、`link_check.py` 与 Phase 4 必须复用该契约，不得各自实现正则和路径归一化。
+`<skill-dir>/tools/project_docs_contract.py` 是文档路径和 Markdown 链接解析的唯一规则来源。`compute_link.py`、`link_check.py` 与 Phase 4 必须复用该契约，不得各自实现正则和路径归一化。
 
 本地文档路径必须满足：
 
@@ -23,32 +23,32 @@
 
 ```bash
 # 单个链接；允许目标尚未写入
-python .dsh/skills/sync-project-docs/tools/compute_link.py \
+python "<skill-dir>/tools/compute_link.py" \
   --project-docs project_docs \
   --from project_docs/src/core.md \
   --to project_docs/src/utils/common.md
 
 # 要求两端文档已经存在
-python .dsh/skills/sync-project-docs/tools/compute_link.py \
+python "<skill-dir>/tools/compute_link.py" \
   --project-docs project_docs \
   --from src/core.md \
   --to src/utils/common.md \
   --must-exist
 
 # 校验单个文档，stdout 仅输出 JSON
-python .dsh/skills/sync-project-docs/tools/compute_link.py \
+python "<skill-dir>/tools/compute_link.py" \
   --project-docs project_docs \
   --validate src/core.md \
   --json
 
 # 批量计算；输出采用同目录临时文件 + os.replace 原子写
-python .dsh/skills/sync-project-docs/tools/compute_link.py \
+python "<skill-dir>/tools/compute_link.py" \
   --project-docs project_docs \
   --batch links.json \
   --output resolved.json
 
 # 全库只读检查；不会生成或覆盖 manifest
-python .dsh/skills/sync-project-docs/tools/link_check.py --project-docs project_docs --json
+python "<skill-dir>/tools/link_check.py" --project-docs project_docs --json
 ```
 
 退出码：

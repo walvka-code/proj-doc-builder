@@ -1,6 +1,6 @@
 # 扫描排除、边界与状态契约
 
-`.dsh/skills/sync-project-docs/tools/scan_dirs.py` 只扫描应当生成项目文档的真实源码目录。扫描结果是 schema v2 candidate；只有协调器全部闸门通过后，candidate 才能成为 committed `_scan_state.json`。
+`<skill-dir>/tools/scan_dirs.py` 只扫描应当生成项目文档的真实源码目录。扫描结果是 schema v2 candidate；只有协调器全部闸门通过后，candidate 才能成为 committed `_scan_state.json`。
 
 ## 排除目录
 

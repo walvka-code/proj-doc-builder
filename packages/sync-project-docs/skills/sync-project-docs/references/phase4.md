@@ -7,7 +7,7 @@ Phase 4 只处理“源码目录已确认消失、但镜像文档仍存在”的
 默认行为严格只读：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --json
+python "<skill-dir>/tools/phase4_exit.py" . --json
 ```
 
 普通 `/sync-project-docs` 只消费同一分析器产生的报告。Phase 4 不会在普通同步中自动 quarantine、自动删除或自动添加历史存档标注。
@@ -57,7 +57,7 @@ python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --json
 只有用户针对当前处置另行明确授权后，才可执行：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --apply --json
+python "<skill-dir>/tools/phase4_exit.py" . --apply --json
 ```
 
 `--apply` 在统一项目根锁内重新分析，并在首次移动前全量复核所有 candidate。所有 candidate 组成一个批事务；任意候选失效都会阻止整批提交。
@@ -92,7 +92,7 @@ project_docs/.quarantine（运行时生成，可能不存在）/<receipt-id>/
 恢复一个 receipt：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . `
+python "<skill-dir>/tools/phase4_exit.py" . `
   --restore <RECEIPT_ID> --json
 ```
 
@@ -138,7 +138,7 @@ journal 存在时，以下动作全部返回 `phase4-recovery-required`，且不
 必须先显式执行：
 
 ```powershell
-python .dsh/skills/sync-project-docs/tools/phase4_exit.py . --recover --json
+python "<skill-dir>/tools/phase4_exit.py" . --recover --json
 ```
 
 无 pending journal 时，`--recover` 成功返回 `no-pending-transaction`，不修改项目。
